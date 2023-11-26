@@ -4,7 +4,7 @@ from auchan.regions import list_regions
 from auchan.shops import list_shops
 from auchan.categories import list_categories
 from auchan.products import list_products
-
+import threading
 from schemas import Region, Shop, Category
 
 file = open("products.csv", mode="w", encoding='utf-8')
@@ -35,4 +35,3 @@ try:
 except Exception as e:
     print(e)
     file.close()
-
