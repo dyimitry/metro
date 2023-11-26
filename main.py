@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 import csv
 from auchan.regions import list_regions
 from auchan.shops import list_shops

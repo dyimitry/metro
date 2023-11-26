@@ -78,5 +78,4 @@ def list_products(region_id: int, merchant_id: int, sub_category_code: str, coun
 
             products.append(product)
 
-
     return products

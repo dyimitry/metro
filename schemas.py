@@ -22,7 +22,6 @@ class Category(BaseModel):
 class Product(BaseModel):
     region_id: int
     merchart_id: int
-    # category_id: int
     sub_category_code: str
     product_id: int
     product_name: str
