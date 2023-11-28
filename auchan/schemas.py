@@ -29,3 +29,17 @@ class Product(BaseModel):
     product_price: Optional[float] = None
     product_promo_price: Optional[float] = None
     product_url: Optional[str] = None
+
+
+class CollectProduct(BaseModel):
+    region_id: int
+    shop_merchant_id: int
+    category_code: str
+    category_count_products: int
+
+
+    #
+    # region.id, shop.merchant_id, category.code, category.count_products
+    # products = list_products(collect_product.regionid, shop.merchant_id, category.code, category.count_products)
+    #
+

@@ -2,14 +2,12 @@ import os
 from dotenv import load_dotenv
 
 from sqlalchemy import create_engine, Column, Integer, String, Float
-from sqlalchemy.orm import declarative_base, Session
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 load_dotenv()
 
 engine = create_engine(os.getenv("DATABASE_URL"))
-
-session = Session(engine)
 
 
 class Product(Base):
