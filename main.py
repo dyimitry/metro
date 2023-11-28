@@ -28,23 +28,14 @@ def parallel_collect_and_save(database_engine, collect_category):
         )
         for product in products:
             product_add_in_db(database_session, product)
-            file_writer.writerow(product.model_dump())
-
-
-file = open("products.csv", mode="w", encoding='utf-8')
 
 try:
     threads = []
-    names = [
-        "region_id", "merchart_id", "sub_category_code", "product_id",
-        "product_name", "product_brand", "product_price", "product_promo_price", "product_url"
-    ]
-    file_writer = csv.DictWriter(file, delimiter=",", lineterminator="\r", fieldnames=names)
-    file_writer.writeheader()
 
     regions: List[Region] = list_regions()
 
     id_tread = 1
+
     for region in regions:
         print(f"collect region {region.id}")
 
@@ -68,14 +59,11 @@ try:
 
             id_tread += 1
 
-                # for product in products:
-                #     product_add_in_db(session, product)   #  НОВАЯ
-                #     file_writer.writerow(product.model_dump())
-
     [t.join() for t in threads]
+    # после завершения всех потоков можно считывать данные из бд и писать в файл если необходимо
+
 except Exception as e:
     print(e)
-    file.close()
 
 
 
