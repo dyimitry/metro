@@ -2,7 +2,7 @@ from typing import List
 
 import requests
 
-from schemas import Category
+from auchan.schemas import Category
 
 CATEGORIES_URL = "https://www.auchan.ru/v1/categories"
 BASE_CATEGORY_CODE = "syry"

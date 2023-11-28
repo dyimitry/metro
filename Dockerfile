@@ -12,7 +12,7 @@ COPY ./alembic.ini /src
 COPY ./alembic /src/alembic
 
 COPY ./auchan /src
-COPY ./db.py /src
+COPY db/db.py /src
 COPY ./main.py /src
 
 WORKDIR /src

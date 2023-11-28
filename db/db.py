@@ -1,16 +1,14 @@
 import os
 from dotenv import load_dotenv
-import psycopg2  # noqa
 
 from sqlalchemy import create_engine, Column, Integer, String, Float
-
 from sqlalchemy.orm import declarative_base, Session
 
 Base = declarative_base()
 load_dotenv()
 
-engine = create_engine(os.getenv("DATABASE_URL"), echo=True)
-Base.metadata.create_all(engine)
+engine = create_engine(os.getenv("DATABASE_URL"))
+
 session = Session(engine)
 
 
@@ -28,3 +26,4 @@ class Product(Base):
     product_url = Column(String(200))
 
 
+Base.metadata.create_all(engine)

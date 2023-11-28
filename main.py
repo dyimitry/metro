@@ -4,8 +4,9 @@ from auchan.regions import list_regions
 from auchan.shops import list_shops
 from auchan.categories import list_categories
 from auchan.products import list_products
-import threading
-from schemas import Region, Shop, Category
+from db.db import session
+from db.add_product import product_add_in_db
+from auchan.schemas import Region, Shop, Category
 
 file = open("products.csv", mode="w", encoding='utf-8')
 
@@ -30,6 +31,7 @@ try:
                 print(f"collect category {category.code}")
                 products = list_products(region.id, shop.merchant_id, category.code, category.count_products)
                 for product in products:
+                    product_add_in_db(session, product)   #  НОВАЯ
                     file_writer.writerow(product.model_dump())
 
 except Exception as e:
