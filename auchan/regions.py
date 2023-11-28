@@ -2,7 +2,7 @@ from typing import List
 
 import requests
 
-from schemas import Region
+from auchan.schemas import Region
 
 REGION_NAME_MSC = "Москва и область"
 REGION_NAME_SPB = "Санкт-Петербург и область"

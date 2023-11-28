@@ -2,7 +2,7 @@ from typing import List
 
 import requests
 
-from schemas import Shop
+from auchan.schemas import Shop
 
 SHOPS_URL = "https://www.auchan.ru/v1/shops"
 

@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  ma-postgres-db:
+    image: postgres:15
+    volumes:
+      - ma-postgres-db:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 3s
+      retries: 2
+
+  migration:
+    image: parser_ma
+    command: alembic upgrade head
+    depends_on:
+      ma-postgres-db:
+        condition: service_healthy
+    env_file:
+      - .env
+
+volumes:
+  ma-postgres-db:

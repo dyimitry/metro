@@ -2,7 +2,7 @@ from typing import List, Any, Dict
 
 import requests
 
-from schemas import Product
+from auchan.schemas import Product
 
 PRODUCTS_URL = "https://www.auchan.ru/v1/catalog/products"
 PRODUCTS_COUNT = 40
