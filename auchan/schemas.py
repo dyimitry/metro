@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
 
@@ -31,11 +31,10 @@ class Product(BaseModel):
     product_url: Optional[str] = None
 
 
-class CollectProduct(BaseModel):
+class CollectCategories(BaseModel):
     region_id: int
     shop_merchant_id: int
-    category_code: str
-    category_count_products: int
+    categories: List[Category]
 
 
     #

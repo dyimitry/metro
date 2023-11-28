@@ -10,21 +10,25 @@ from auchan.categories import list_categories
 from auchan.products import list_products
 from db.db import engine
 from db.add_product import product_add_in_db
-from auchan.schemas import Region, Shop, Category, CollectProduct
+from auchan.schemas import Region, Shop, Category, CollectCategories
 
 
-def parallel_collect_and_save_products(database_engine, collect_product):
+def parallel_collect_and_save(database_engine, collect_category):
     print(f"run thread: {threading.current_thread().name}")
     database_session = Session(database_engine)
-    products = list_products(
-        region_id=collect_product.region_id,
-        merchant_id=collect_product.shop_merchant_id,
-        sub_category_code=collect_product.category_code,
-        count_products=collect_product.category_count_products
-    )
-    for product in products:
-        product_add_in_db(database_session, product)
-        file_writer.writerow(product.model_dump())
+
+    for category in collect_category.categories:
+        print(f"collect category {category.code}")
+        products = list_products(
+            region_id=collect_category.region_id,
+            merchant_id=collect_category.shop_merchant_id,
+
+            sub_category_code=category.code,
+            count_products=category.count_products
+        )
+        for product in products:
+            product_add_in_db(database_session, product)
+            file_writer.writerow(product.model_dump())
 
 
 file = open("products.csv", mode="w", encoding='utf-8')
@@ -48,24 +52,21 @@ try:
         for shop in shops:
             print(f"collect shop {shop.merchant_id}")
             categories: List[Category] = list_categories(shop.merchant_id)
-            for category in categories:
-                print(f"collect category {category.code}")
 
-                data_for_collect_products = CollectProduct(
-                    region_id=region.id,
-                    shop_merchant_id=shop.merchant_id,
-                    category_code=category.code,
-                    category_count_products=category.count_products
-                )
+            data_for_collect_categories = CollectCategories(
+                region_id=region.id,
+                shop_merchant_id=shop.merchant_id,
+                categories=categories
+            )
 
-                thread = threading.Thread(
-                    name=f"thread_{id_tread}",
-                    target=parallel_collect_and_save_products, args=(engine, data_for_collect_products,)
-                )
+            thread = threading.Thread(
+                name=f"thread_{id_tread}",
+                target=parallel_collect_and_save, args=(engine, data_for_collect_categories,)
+            )
 
-                thread.start()
+            thread.start()
 
-                id_tread += 1
+            id_tread += 1
 
                 # for product in products:
                 #     product_add_in_db(session, product)   #  НОВАЯ
